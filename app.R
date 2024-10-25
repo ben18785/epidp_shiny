@@ -14,6 +14,7 @@ library(epidp)
 
 # Define UI for the application
 ui <- fluidPage(
+  img(src = "epidp.png", height = "100px", width = "100px"),
   titlePanel("epidp: Rt estimation"),
   
   sidebarLayout(
@@ -21,9 +22,9 @@ ui <- fluidPage(
       fileInput("file1", "Choose CSV File",
                 accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv")),
       uiOutput("rtMethodUI"),  # Rt estimation method selector appears after file upload
-      sliderInput("mean", "Adjust Serial Interval Mean:",
+      sliderInput("mean", "Serial Interval Mean:",
                   min = 1, max = 25, value = 6.5),
-      sliderInput("sd", "Adjust Serial Interval Standard Deviation",
+      sliderInput("sd", "Serial Interval Standard Deviation",
                   min = 1, max = 50, value = 4.03)
     ),
     
@@ -92,7 +93,7 @@ server <- function(input, output) {
     # Create ggplot for the Discrete Gamma distribution PMF
     ggplot(data = data.frame(x = x_vals, y = gamma_pmf), aes(x = x, y = y)) +
       geom_bar(stat = "identity", fill = "black", alpha = 0.7) +
-      labs(title = "Discrete Gamma Distribution PMF",
+      labs(title = "Serial Interval PMF",
            x = "Days",
            y = "Probability Mass") +
       scale_x_continuous(breaks = seq(0, 15, 5)) + # X-axis for 30 days
